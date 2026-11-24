@@ -1,107 +1,78 @@
-# Sales-management-analysis
-Criação de um jupyter notebook com ênfase em analisar as vendas, de produtos tecnológicos, dos gerentes de cada loja.
+# Análise de Vendas e Desempenho Gerencial
+
+Análise de vendas de produtos tecnológicos por loja e região, comparando o faturamento mensal de cada loja com a meta do respectivo gerente. Projeto em Python (pandas) desenvolvido em Jupyter Notebook.
 
 ## Objetivo
-O que você quer descobrir (ex.: vendas por mês, melhores produtos, desempenho por vendedor).
+
+O notebook responde a três perguntas de negócio:
+
+1. Qual região teve o maior faturamento?
+2. Cada gerente atingiu a meta mensal da loja sob sua responsabilidade?
+3. Qual foi o produto mais vendido (em unidades) em cada região?
+
+## Principais resultados
+
+| Região   | Faturamento total   |
+| -------- | ------------------- |
+| Sudeste  | R$ 126.100.300,00   |
+| Nordeste | R$ 84.491.000,00    |
+| Sul      | R$ 82.800.180,00    |
+
+- **Maior faturamento:** Sudeste. As vendas online ficaram fora do ranking, já que não representam uma região geográfica.
+- **Metas dos gerentes:** os 7 gerentes atingiram a meta em todos os 24 meses analisados (168 de 168 combinações gerente-mês).
+- **Produto mais vendido por região (unidades):**
+  - Nordeste: Notebook HP (5.436)
+  - Sudeste: Monitor 27" (8.219)
+  - Sul: Teclado Mecânico (5.340)
 
 ## Dados
-De onde vêm os dados (arquivo CSV, planilha, etc.).
+
+| Arquivo               | Conteúdo                                                                 |
+| --------------------- | ------------------------------------------------------------------------ |
+| `vendas_tech.csv`     | Registros de vendas: pedido, data, loja, produto, preço unitário, quantidade e cliente (100.100 linhas brutas, 100.000 após a limpeza) |
+| `gerentes_lojas.xlsx` | Cadastro de gerentes: loja, gerente e meta mensal de faturamento (7 lojas) |
+
+Valores ausentes na coluna `Loja` correspondem a vendas online, conforme orientação recebida da equipe.
+
+## Tratamento dos dados
+
+- Conversão da coluna `Data` para `datetime`.
+- Padronização dos nomes das lojas (espaços e maiúsculas/minúsculas) e preenchimento dos valores ausentes com `Online`.
+- Remoção da coluna `Data_Base`, que tinha 99,999% de valores nulos e não era necessária para a análise.
+- Remoção de 100 registros duplicados (critério: repetição de `ID_Pedido` + `Cliente`).
+- Criação de colunas derivadas: `Faturamento` (`Preco_Unitario * Qtd`), `Regiao` (a partir da loja) e `Forma_de_venda` (Online ou Presencial).
 
 ## Ferramentas
-Python, pandas, matplotlib (ou o que for usar).
+
+Python, pandas, NumPy, openpyxl e Jupyter Notebook.
 
 ## Como rodar
-Passos rápidos para executar o projeto.
-
-
-## Como editar o arquivo e atualizar ele no main
-Aqui vai o passo a passo pelo terminal (o do VS Code serve também, ou o Git Bash no Windows).
-
-**0. Baixar o repositório pro seu computador (só na primeira vez)**
 
 ```bash
-git clone https://github.com/SEU-USUARIO/sales-analysis.git
-cd sales-analysis
+git clone https://github.com/Nanashbom/Sales-management-analysis.git
+cd Sales-management-analysis
+pip install -r requirements.txt
+jupyter notebook
 ```
 
-Troque pelo link do seu repositório (botão verde **Code** no GitHub).
+Abra o notebook em `notebooks/` e execute as células na ordem (**Kernel → Restart & Run All**). Os arquivos de dados precisam estar na pasta indicada na primeira célula do notebook.
 
-**1. Criar uma branch nova e entrar nela**
+## Estrutura do repositório
 
-```bash
-git checkout -b minha-branch
+```
+├── notebooks/       # notebook da análise
+├── data/            # vendas_tech.csv e gerentes_lojas.xlsx
+├── resultados/      # tabelas exportadas (.csv)
+├── requirements.txt
+└── README.md
 ```
 
-Dá pra usar também `git switch -c minha-branch`, que faz a mesma coisa. Escolha um nome que diga o que você vai fazer, como `analise-inicial` ou `limpeza-dados`.
+## Arquivos gerados
 
-Para ver em qual branch você está:
+- `faturamento_por_regiao.csv`
+- `resultado_metas_gerentes_mensal.csv` e `resumo_metas_gerentes.csv`
+- `resultado_produto_mais_vendido_por_regiao.csv`
 
-```bash
-git branch
-```
+## Autor
 
-**2. Fazer suas alterações**
-
-Crie ou edite arquivos normalmente (notebook, script, README etc.).
-
-**3. Ver o que mudou**
-
-```bash
-git status
-```
-
-**4. Adicionar os arquivos ao commit**
-
-```bash
-git add .
-```
-
-O ponto adiciona tudo que mudou. Como a pasta `data/` está no `.gitignore`, ela não vai junto. Se preferir adicionar só um arquivo: `git add nome-do-arquivo.py`.
-
-**5. Fazer o commit**
-
-```bash
-git commit -m "Adiciona análise inicial de vendas"
-```
-
-A mensagem deve descrever o que você fez, de forma curta.
-
-**6. Enviar pro GitHub (push)**
-
-Na primeira vez que você envia uma branch nova:
-
-```bash
-git push -u origin minha-branch
-```
-
-Nas próximas vezes nessa mesma branch, basta:
-
-```bash
-git push
-```
-
-**7. Juntar a branch na principal (opcional)**
-
-Quando terminar o trabalho, você pode:
-
-- **Pelo GitHub:** abrir um Pull Request e clicar em **Merge**.
-- **Pelo terminal:**
-
-```bash
-git checkout main
-git merge minha-branch
-git push
-```
-
-Se o seu repositório usa `master` em vez de `main`, troque o nome nos comandos.
-
-**Resumo do dia a dia:**
-
-```bash
-git status
-git add .
-git commit -m "mensagem"
-git push
-```
-
-Como o repositório é só seu e é um projeto básico, você pode trabalhar direto na `main` sem criar branch. Branches ficam mais úteis quando você quer testar algo sem mexer no que já funciona, ou quando trabalha em equipe.
+**Robert Nathan**, [github.com/Nanashbom](https://github.com/Nanashbom)
